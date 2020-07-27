@@ -28,9 +28,20 @@ class ViewController: UIViewController {
         return button
     }()
     
-    var player = AudioPlayer()
+    lazy var player: AudioPlayer = {
+        return AudioPlayer()
+    }()
     
-    var fileHanlder = FileHandler()
+    lazy var record: AudioRecord = {
+        return AudioRecord()
+    }()
+    lazy var fileHanlder: FileHandler = {
+        return FileHandler()
+    }()
+    
+    lazy var audioUnit: AudioUnitManager = {
+        return AudioUnitManager()
+    }()
     
     var progressView = UIView()
     var timer: Timer?
@@ -38,18 +49,21 @@ class ViewController: UIViewController {
     @objc func didClickRecord() {
         self.audioButton.isSelected = !self.audioButton.isSelected
         if self.audioButton.isSelected {
-            
+            audioUnit.start()
         } else {
-            
+            audioUnit.stop()
         }
-        
+//        record.startCapture(fileHandler: fileHanlder)
     }
     
     @objc func didClickPlay() {
         self.playButton.isSelected = !self.playButton.isSelected
 
         if self.playButton.isSelected {
-            prepareAudioData()
+            var filePath = Bundle.main.path(forResource: "like", ofType: "mp3") ?? ""
+            // filePath = Bundle.main.path(forResource: "testPCM", ofType: "caf") ?? ""
+            fileHanlder.config(path: filePath)
+            player.configAudio(path: filePath)
             player.startPlay()
         } else {
             player.pauseAudioPlayer()
@@ -63,12 +77,7 @@ class ViewController: UIViewController {
         view.backgroundColor = .white
         self.view.addSubview(self.playButton)
         self.view.addSubview(self.audioButton)
-        var filePath = Bundle.main.path(forResource: "checkingiftdeny", ofType: "mp3") ?? ""
-        filePath = Bundle.main.path(forResource: "testPCM", ofType: "caf") ?? ""
 
-        fileHanlder.config(path: filePath)
-        player.configAudio(path: filePath)
-        
         player.didPlayToEnd = { [weak self] in
             self?.didClickPlay()
         }
@@ -91,7 +100,11 @@ class ViewController: UIViewController {
     }
     
     func prepareAudioData() {
-        let packetDesc = UnsafeMutablePointer<AudioStreamPacketDescription>.allocate(capacity: MemoryLayout<AudioStreamPacketDescription>.size)
+        var packetDesc = UnsafeMutablePointer<AudioStreamPacketDescription>.allocate(capacity: MemoryLayout<AudioStreamPacketDescription>.size * Int(self.player.info.outNumPacketToRead))
+        if player.info.mDataFormat?.mBytesPerPacket == 0 || player.info.mDataFormat?.mFramesPerPacket == 0 {
+            packetDesc = UnsafeMutablePointer<AudioStreamPacketDescription>.allocate(capacity: MemoryLayout<AudioStreamPacketDescription>.size * Int(player.info.outNumPacketToRead))
+        }
+        
         timer = Timer.scheduledTimer(withTimeInterval: 0.09, repeats: true) { [weak self](timer) in
             guard let self = self else { return }
             if self.playButton.isSelected == false {
@@ -99,11 +112,11 @@ class ViewController: UIViewController {
                 self.fileHanlder.resetFile()
             } else {
                 let audioData =  UnsafeMutableRawPointer.allocate(byteCount: 8192, alignment: 8)
-                let readBytes = self.fileHanlder.readAudio(dataRef: audioData, packetDesc: packetDesc, readPacketNum: 4096)
+                let readBytes = self.fileHanlder.readAudio(dataRef: audioData, packetDesc: packetDesc, readPacketNum: self.player.info.outNumPacketToRead)
                 if readBytes > 0 {
                     let queueProcess = self.player.audioBufferQueue
                     if let node = queueProcess.deQueue(queue: queueProcess.free_queue) {
-                        node.data?.copyMemory(from: audioData, byteCount: 8192)
+                        node.data?.copyMemory(from: audioData, byteCount: Int(readBytes))
                         node.size = Int(readBytes)
                         node.userData = UnsafeRawPointer.init(packetDesc)
                         queueProcess.enQueue(queue: queueProcess.work_queue, node: node)
