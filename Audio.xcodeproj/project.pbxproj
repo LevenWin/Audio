@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BD18DC3824CEC20E0080616D /* AudioGraphManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD18DC3724CEC20E0080616D /* AudioGraphManager.swift */; };
 		BD1ED6F924BEF2000014A83A /* testPCM.caf in Resources */ = {isa = PBXBuildFile; fileRef = BD1ED6F824BEF2000014A83A /* testPCM.caf */; };
 		BD1ED6FC24C02B1A0014A83A /* like.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BD1ED6FB24C02B1A0014A83A /* like.mp3 */; };
 		BD1ED70F24C1B19D0014A83A /* AudioRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD1ED70E24C1B19D0014A83A /* AudioRecord.swift */; };
@@ -14,6 +15,8 @@
 		BD1ED73224C7FE970014A83A /* 2020_07_22__12_37_05.caf in Resources */ = {isa = PBXBuildFile; fileRef = BD1ED72F24C7FE970014A83A /* 2020_07_22__12_37_05.caf */; };
 		BD1ED73324C7FE970014A83A /* 2020_07_22__12_44_09.caf in Resources */ = {isa = PBXBuildFile; fileRef = BD1ED73024C7FE970014A83A /* 2020_07_22__12_44_09.caf */; };
 		BD1ED75024CAD2070014A83A /* AudioUnitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD1ED74F24CAD2060014A83A /* AudioUnitManager.swift */; };
+		BD52A87624DAB7BE008711C2 /* AudioFileReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD52A87524DAB7BE008711C2 /* AudioFileReader.swift */; };
+		BD52A87824DACDCA008711C2 /* AudioFileWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD52A87724DACDCA008711C2 /* AudioFileWriter.swift */; };
 		BD5F51D024BC5169000CBCE6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5F51CF24BC5169000CBCE6 /* AppDelegate.swift */; };
 		BD5F51D424BC5169000CBCE6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5F51D324BC5169000CBCE6 /* ViewController.swift */; };
 		BD5F51D724BC5169000CBCE6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BD5F51D524BC5169000CBCE6 /* Main.storyboard */; };
@@ -45,6 +48,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BD18DC3724CEC20E0080616D /* AudioGraphManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioGraphManager.swift; sourceTree = "<group>"; };
 		BD1ED6F824BEF2000014A83A /* testPCM.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = testPCM.caf; sourceTree = "<group>"; };
 		BD1ED6FB24C02B1A0014A83A /* like.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = like.mp3; sourceTree = "<group>"; };
 		BD1ED70E24C1B19D0014A83A /* AudioRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioRecord.swift; sourceTree = "<group>"; };
@@ -52,6 +56,8 @@
 		BD1ED72F24C7FE970014A83A /* 2020_07_22__12_37_05.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = 2020_07_22__12_37_05.caf; sourceTree = "<group>"; };
 		BD1ED73024C7FE970014A83A /* 2020_07_22__12_44_09.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = 2020_07_22__12_44_09.caf; sourceTree = "<group>"; };
 		BD1ED74F24CAD2060014A83A /* AudioUnitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioUnitManager.swift; sourceTree = "<group>"; };
+		BD52A87524DAB7BE008711C2 /* AudioFileReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioFileReader.swift; sourceTree = "<group>"; };
+		BD52A87724DACDCA008711C2 /* AudioFileWriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioFileWriter.swift; sourceTree = "<group>"; };
 		BD5F51CC24BC5169000CBCE6 /* Audio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Audio.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD5F51CF24BC5169000CBCE6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BD5F51D324BC5169000CBCE6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -134,6 +140,9 @@
 				BD5F520324BDB5DD000CBCE6 /* Audioplayer.swift */,
 				BD1ED70E24C1B19D0014A83A /* AudioRecord.swift */,
 				BD1ED74F24CAD2060014A83A /* AudioUnitManager.swift */,
+				BD18DC3724CEC20E0080616D /* AudioGraphManager.swift */,
+				BD52A87524DAB7BE008711C2 /* AudioFileReader.swift */,
+				BD52A87724DACDCA008711C2 /* AudioFileWriter.swift */,
 				BD1ED6FB24C02B1A0014A83A /* like.mp3 */,
 				BD5F520724BEA7AA000CBCE6 /* FileHandler.swift */,
 				BD5F520524BDBC64000CBCE6 /* AudioQueueProcess.swift */,
@@ -308,8 +317,11 @@
 				BD5F51D024BC5169000CBCE6 /* AppDelegate.swift in Sources */,
 				BD1ED75024CAD2070014A83A /* AudioUnitManager.swift in Sources */,
 				BD5F520824BEA7AA000CBCE6 /* FileHandler.swift in Sources */,
+				BD52A87624DAB7BE008711C2 /* AudioFileReader.swift in Sources */,
 				BD5F520424BDB5DD000CBCE6 /* Audioplayer.swift in Sources */,
 				BD1ED70F24C1B19D0014A83A /* AudioRecord.swift in Sources */,
+				BD18DC3824CEC20E0080616D /* AudioGraphManager.swift in Sources */,
+				BD52A87824DACDCA008711C2 /* AudioFileWriter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

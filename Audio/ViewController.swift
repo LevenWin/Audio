@@ -43,15 +43,23 @@ class ViewController: UIViewController {
         return AudioUnitManager()
     }()
     
+    lazy var audioGraph: AudioGraphManager = {
+        return AudioGraphManager()
+    }()
+    
     var progressView = UIView()
     var timer: Timer?
     
     @objc func didClickRecord() {
         self.audioButton.isSelected = !self.audioButton.isSelected
         if self.audioButton.isSelected {
-            audioUnit.start()
+            audioGraph.outputPath = recordSavePath()
+            audioGraph.start()
+            
+//            audioUnit.start()
         } else {
-            audioUnit.stop()
+            audioGraph.stop()
+//            audioUnit.stop()
         }
 //        record.startCapture(fileHandler: fileHanlder)
     }
@@ -62,6 +70,7 @@ class ViewController: UIViewController {
         if self.playButton.isSelected {
             var filePath = Bundle.main.path(forResource: "like", ofType: "mp3") ?? ""
             // filePath = Bundle.main.path(forResource: "testPCM", ofType: "caf") ?? ""
+            filePath = audioGraph.outputPath! + ".m4a"
             fileHanlder.config(path: filePath)
             player.configAudio(path: filePath)
             player.startPlay()
@@ -70,7 +79,16 @@ class ViewController: UIViewController {
         }
     }
     
-    
+    func recordSavePath() -> String {
+        let dir = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first ?? "" + "/audioMixed"
+        if FileManager.default.fileExists(atPath: dir) == false {
+            do {
+                try? FileManager.default.createDirectory(at: URL(fileURLWithPath: dir), withIntermediateDirectories: true, attributes: nil)
+            }
+        }
+        let path = dir + "/" + "\(Int(Date.timeIntervalSinceReferenceDate))"
+        return path
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -87,12 +105,12 @@ class ViewController: UIViewController {
                 return
             }
             let rect = self.view.bounds
-            let p = String(format: "%.2f", Float(self.player.currentPlaySize) / Float( self.player.info.audioSize))
-            let width = rect.size.width * CGFloat(1.00 - (Double(p) ?? 0.0))
-            UIView.animate(withDuration: 0.2) {
-                    self.progressView.frame = CGRect(x: (rect.width - width) / 2.0, y: 150, width: width, height: 2)
+//            let p = String(format: "%.2f", Float(self.player.currentPlaySize) / Float(Float( self.player.info.audioSize)))
+//            let width = rect.size.width * CGFloat(1.00 - (Double(p) ?? 0.0))
+//            UIView.animate(withDuration: 0.2) {
+//                    self.progressView.frame = CGRect(x: (rect.width - width) / 2.0, y: 150, width: width, height: 2)
 
-            }
+//            }
         }
         self.progressView.backgroundColor = .orange
         self.progressView.layer.cornerRadius = 1
